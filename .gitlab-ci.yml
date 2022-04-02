@@ -1,0 +1,119 @@
+---
+
+default:
+  image: rust:1.59.0
+  cache:
+    key: $CI_JOB_NAME
+    paths:
+      - .cargo
+      - target
+variables:
+  CARGO_HOME: $CI_PROJECT_DIR/.cargo
+
+stages:
+  - build
+  - test
+  - qa
+  - security
+  - deploy
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+  - template: Security/License-Scanning.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+
+code_quality:
+  stage: qa
+  needs: []
+
+license_scanning:
+  stage: qa
+  needs: []
+
+sast:
+  stage: security
+  needs: []
+
+secret_detection:
+  stage: security
+  needs: []
+
+build:
+  stage: build
+  before_script:
+    - rustc --version
+    - cargo --version
+  script:
+    - cargo build --all-features --verbose
+
+test:
+  stage: test
+  before_script:
+    - rustc --version
+    - cargo --version
+  script:
+    - cargo test --all-features --verbose
+  needs: []
+
+coverage:
+  stage: qa
+  needs:
+    - test
+  before_script:
+    - cargo install cargo-tarpaulin
+  script:
+    - cargo tarpaulin --all-features --out=Xml --out=Html --output-dir=coverage
+  artifacts:
+    paths:
+      - coverage/
+    reports:
+      cobertura: coverage/cobertura.xml
+  coverage: '/(\d+\.\d+)% coverage/'
+
+lint:
+  stage: qa
+  needs: []
+  before_script:
+    - rustup component add clippy
+  script:
+    - cargo clippy --all-features -- -D warnings
+
+fmt:
+  stage: qa
+  needs: []
+  before_script:
+    - rustup component add rustfmt
+    - cargo install cargo-sort
+  script:
+    - cargo fmt -- --check
+    - cargo sort --check
+
+audit:
+  stage: qa
+  needs: []
+  before_script:
+    - cargo install cargo-audit
+  script:
+    - cargo audit -D warnings
+
+#binary:
+#  stage: deploy
+#  script:
+#    - cargo build --release --locked --verbose
+#  artifacts:
+#    paths:
+#      - target/release/*
+
+pages:
+  stage: deploy
+  script:
+    - cargo rustdoc --all-features
+  after_script:
+    - mkdir -p public
+    - mv target/doc public
+  artifacts:
+    paths:
+    - public
+  only:
+    - main

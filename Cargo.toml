@@ -1,0 +1,24 @@
+[package]
+authors = [
+    "Marc 'risson' Schmitt <marc.schmitt@risson.space>",
+]
+categories = ["concurrency"]
+description = "/r/place timelapse generator"
+homepage = "https://github.com/rissson/place-timelapse-2022"
+license-file = "LICENSE"
+name = "place"
+readme = "README.md"
+repository = "https://github.com/rissson/place-timelapse-2022"
+version = "0.0.1"
+edition = "2021"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+anyhow = "1.0.56"
+chrono = "0.4.19"
+image = "0.24.1"
+parking_lot = "0.12.0"
+rayon = "1.5.1"

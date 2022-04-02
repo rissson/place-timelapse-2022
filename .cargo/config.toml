@@ -1,0 +1,31 @@
+[doc.extern-map.registries]
+crates-io = "https://docs.rs/"
+
+[target.'cfg(all())']
+rustflags = [
+    "-Wrust_2018_idioms",
+    "-Wsemicolon_in_expressions_from_macros",
+    "-Wunused_import_braces",
+    "-Wunused_qualifications",
+    "-Wclippy::branches_sharing_code",
+    "-Wclippy::cloned_instead_of_copied",
+    "-Wclippy::dbg_macro",
+    "-Wclippy::disallowed_types",
+    "-Wclippy::empty_line_after_outer_attr",
+    "-Wclippy::exhaustive_enums",
+    "-Wclippy::exhaustive_structs",
+    "-Wclippy::inefficient_to_string",
+    "-Wclippy::macro_use_imports",
+    "-Wclippy::map_flatten",
+    "-Wclippy::missing_enforced_import_renames",
+    "-Wclippy::mod_module_files",
+    "-Wclippy::mut_mut",
+    "-Wclippy::needless_borrow",
+    "-Aclippy::new_without_default",
+    "-Wclippy::nonstandard_macro_braces",
+    "-Wclippy::str_to_string",
+    "-Wclippy::todo",
+    "-Wclippy::unreadable_literal",
+    "-Wclippy::unseparated_literal_suffix",
+    "-Wclippy::wildcard_imports",
+]

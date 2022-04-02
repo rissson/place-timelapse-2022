@@ -1,0 +1,17 @@
+repos:
+  - repo: local
+    hooks:
+      - id: cargo-sort
+        name: Check Cargo.toml is sorted
+        description: 'Ensure Cargo.toml is sorted'
+        entry: cargo-sort
+        language: rust
+        types: [file, toml]
+        files: Cargo\.toml
+        pass_filenames: false
+  - repo: https://github.com/doublify/pre-commit-rust
+    rev: v1.0
+    hooks:
+    - id: cargo-check
+    - id: clippy
+    - id: fmt
