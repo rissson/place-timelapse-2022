@@ -18,7 +18,7 @@ fn main() -> Result<()> {
     let db: Arc<Mutex<HashMap<i64, [Option<_>; 4]>>> =
         Arc::new(Mutex::new(HashMap::new()));
 
-    println!("importing...");
+    eprintln!("importing...");
     paths
         .par_iter()
         .try_for_each(|path| -> Result<()> {
@@ -27,6 +27,7 @@ fn main() -> Result<()> {
                     Ok(filename) => filename,
                     Err(_) => return Err(anyhow!("unrecognized file name")),
                 };
+            eprintln!("{}", &filename);
             let mut split = filename.split('-');
             let canvas_id: usize = split.next().unwrap().parse()?;
             if canvas_id > 3 {
@@ -48,7 +49,7 @@ fn main() -> Result<()> {
             Ok(())
         })?;
 
-    println!("processing...");
+    eprintln!("processing...");
     db.lock().par_iter().try_for_each(|(timestamp, canvases)| -> Result<()> {
         let mut image = image::RgbaImage::new(2000, 2000);
         for i in 0..4 {
@@ -69,5 +70,6 @@ fn main() -> Result<()> {
         Ok(())
     })?;
 
+    eprintln!("done.");
     Ok(())
 }
