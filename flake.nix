@@ -25,10 +25,9 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            pkg-config openssl
+            wasm-bindgen-cli wasm-pack trunk
 
-            rust-bin.stable."1.59.0".default
-            # rust-bin.nightly.latest.default
+            (rust-bin.fromRustupToolchainFile ./rust-toolchain)
             cargo-audit
             cargo-edit
             cargo-expand
@@ -37,7 +36,6 @@
             cargo-tarpaulin
             git
             pre-commit
-            protobuf
           ];
 
           RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";

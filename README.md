@@ -16,6 +16,12 @@ And then, `ffmpeg` is used to create a time lapse every 5 minutes:
 ffmpeg -y -framerate 60 -pattern_type glob -i "*.png" -s:v 2000x2000 -c:v libx264 -crf 17 -pix_fmt yuv420p video.mp4
 ```
 
+To reduce the size of the video:
+
+```sh
+ffmpeg -y -i video.mp4 -c:v libx264 -b:v 1800k -preset slower -pass 1 -an -movflags +faststart -tune zerolatency -f null /dev/null && ffmpeg -i video.mp4 -c:v libx264 -b:v 1800k -preset slower -pass 2 -movflags +faststart -tune zerolatency -an video5.mp4
+```
+
 ### Building this tool
 
 `cargo build --release`

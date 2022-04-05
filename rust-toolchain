@@ -1,0 +1,4 @@
+[toolchain]
+channel = "1.59"
+components = [ "rustc", "rust-std", "cargo", "rust-docs", "rustfmt", "clippy" ]
+targets = [ "x86_64-unknown-linux-gnu", "wasm32-unknown-unknown" ]
