@@ -2,6 +2,27 @@ use anyhow::Result;
 use gzp::{deflate::Gzip, Compression, ZBuilder};
 use rayon::prelude::*;
 use std::io::prelude::*;
+use image::Rgba;
+
+type R = Rgba<u8>;
+
+#[repr(u8)]
+enum Colors {
+    Burdgundy(R),
+    DarkRed(R),
+    Red(R),
+    Orange(R),
+    Yellow(R),
+    PaleYellow(R),
+    DarkGreen(R),
+    Green(R),
+    LightGreen(R),
+    DarkTeal(R),
+    Teal(R),
+    LightTeal(R),
+    DarkBlue(R),
+    Blue(R),
+}
 
 fn main() -> Result<()> {
     let mut args = Vec::new();
